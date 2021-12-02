@@ -1,7 +1,9 @@
 #!python3
 import collections
+import logging
 
-DEBUG = 1
+logging.basicConfig(filename='script.log', filemode='w', level=logging.DEBUG)
+
 WINDOWSIZE = 3
 
 increase = 0
@@ -14,7 +16,7 @@ with open("input", 'r') as f:
 		window.append(i)
 		if(len(window) < WINDOWSIZE):
 			continue
-#		print(repr(window))
+		logging.debug(repr(window))
 		windowSize = sum(window)
 		if windowSize > prev:
 			if prev != -1 and len(window) == WINDOWSIZE:
