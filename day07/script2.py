@@ -15,7 +15,7 @@ def parseFile(path):
 
 def costToMoveFrom(f, t):
 	dist = abs(f - t)
-	return sum(range(0, dist+1))
+	return int(dist * (dist+1) / 2)
 
 def main():
 	crabPositions = parseFile("input")
