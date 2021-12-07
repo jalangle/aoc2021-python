@@ -14,6 +14,7 @@ Things I needed to know to do these with python
 - [pass](https://docs.python.org/3.9/reference/simple_stmts.html#the-pass-statement)
 
 # Built-in functions
+- [abs](https://docs.python.org/3.9/library/functions.html#abs)
 - [all](https://docs.python.org/3/library/functions.html#all)
 - [int](https://docs.python.org/3/library/functions.html#int)
 - [open](https://docs.python.org/3/library/functions.html#open)
