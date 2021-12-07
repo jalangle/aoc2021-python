@@ -5,11 +5,32 @@ logging.basicConfig(filemode='w', level=logging.DEBUG)
 
 
 def parseFile(path):
-	return "Hello, World"
+	contents = list()
+	with open(path, 'r') as f:
+		for l in f:
+			values = l.rstrip().split(',')
+			for x in values:
+				contents.append(int(x))
+	return contents
+
+def costToMoveFrom(f, t):
+	dist = abs(f - t)
+	return sum(range(0, dist+1))
 
 def main():
-	contents = parseFile("test")
-	print(contents)
+	crabPositions = parseFile("input")
+	#print(crabPositions)
+
+	maxPos = max(crabPositions)
+
+	posCosts = list()
+	for pos in range(0, maxPos):
+		posCosts.append(0)
+		for crab in crabPositions:
+			posCosts[pos] += costToMoveFrom(crab, pos)
+
+	#print(posCosts)
+	print(str(min(posCosts)))
 	return
 
 main()
