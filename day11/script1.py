@@ -57,29 +57,13 @@ def flashOctopode(octopodes, x, y, hasFlashed):
 		return
 
 	hasFlashed.add((x,y))
-
-	# increase the NW corner
 	increaseNeighbor(octopodes, x-1, y-1, hasFlashed)
-
-	#increase the north
 	increaseNeighbor(octopodes, x-1, y, hasFlashed)
-
-	#increase the NE corner
 	increaseNeighbor(octopodes, x-1, y+1, hasFlashed)
-
-	#increase the west
 	increaseNeighbor(octopodes, x, y-1, hasFlashed)
-
-	#increase the east
 	increaseNeighbor(octopodes, x, y+1, hasFlashed)
-
-	# increase the SW corner
 	increaseNeighbor(octopodes, x+1, y-1, hasFlashed)
-
-	#increase the S
 	increaseNeighbor(octopodes, x+1, y, hasFlashed)
-
-	#increase the NE corner
 	increaseNeighbor(octopodes, x+1, y+1, hasFlashed)
 
 def flashOctopodes(octopodes):
@@ -94,19 +78,21 @@ def flashOctopodes(octopodes):
 
 def main():
 	octopodes = parseFile("input")
-	printSep("Initial")
-	pp.pprint(octopodes)
+	#printSep("Initial")
+	#pp.pprint(octopodes)
 
 	flashes = 0
 	days = 100
 	for step in range(0,days):
-		printSep("Day " + str(step + 1))
 		increaseEnergy(octopodes)
 		flashes += flashOctopodes(octopodes)
 
 		resetFlashed(octopodes)
+		#printSep("After day " + str(step + 1))
+
 		#pp.pprint(octopodes)
 
+	#printSep("Done")
 	print("Flashes: " + str(flashes))
 
 	return
