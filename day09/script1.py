@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 def parseFile(path):
@@ -43,8 +43,8 @@ def get_west(data, x, y):
 	return data[x][y-1]
 
 
-def main():
-	heightmap = parseFile("input")
+def func(path):
+	heightmap = parseFile(path)
 #	pp.pprint(heightmap)
 	count_rows = len(heightmap)
 	count_cols = len(heightmap[0])
@@ -63,7 +63,16 @@ def main():
 				risklevel += (1 + val)
 
 
-	print(risklevel)
-	return
+	logging.debug(risklevel)
+	return risklevel
 
-main()
+class TestDay9Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 15)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 504)
+
+if __name__ == '__main__':
+	unittest.main()

@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 def parseFile(path):
@@ -62,8 +62,8 @@ def explore(heightmap, explored_points, x, y):
 
 	return explored_points
 
-def main():
-	heightmap = parseFile("input")
+def func(path):
+	heightmap = parseFile(path)
 #	pp.pprint(heightmap)
 	count_rows = len(heightmap)
 	count_cols = len(heightmap[0])
@@ -84,7 +84,16 @@ def main():
 	basins.sort(key = len, reverse=True)
 	sizes = [len(x) for x in basins[0:3]]
 
-	print(str(sizes[0] * sizes[1] * sizes[2]))
-	return
+	logging.debug(str(sizes[0] * sizes[1] * sizes[2]))
+	return sizes[0] * sizes[1] * sizes[2]
 
-main()
+class TestDay9Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 1134)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 1558722)
+
+if __name__ == '__main__':
+	unittest.main()
