@@ -1,12 +1,13 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.INFO)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 from collections import deque
+
 
 class Edge:
 	def __init__(self):
@@ -94,7 +95,7 @@ def getVisitable(tree, cave, stack):
 	logging.debug(cave + " can visit " + str(visitable))
 	return visitable
 
-def visit(tree, cave, stack = deque(), paths = list()):
+def visit(tree, cave, stack, paths):
 	if(len(stack) > 100):
 		return
 
@@ -113,10 +114,27 @@ def visit(tree, cave, stack = deque(), paths = list()):
 
 	return paths
 
-def main():
-	cavePaths = parseFile("input")
+def func(path):
+	cavePaths = parseFile(path)
 
-	paths = visit(cavePaths, "start")
-	pp.pprint(paths)
+	paths = visit(cavePaths, "start", deque(), list())
+	#pp.pprint(paths)
 	print(len(paths))
-main()
+	return len(paths)
+
+class TestDay12Part2(unittest.TestCase):
+
+	def test_testdata1(self):
+		self.assertEqual(func('test1'), 36)
+
+	def test_testdata2(self):
+		self.assertEqual(func('test2'), 103)
+
+	def test_testdata3(self):
+		self.assertEqual(func('test3'), 3509)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 140718)
+
+if __name__ == '__main__':
+	unittest.main()
