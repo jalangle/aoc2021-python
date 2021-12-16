@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 STEPS = 10
@@ -24,11 +24,11 @@ def parseFile(path):
 def insertAt(strOriginal, strToInsert, pos):
 	return strOriginal[:pos] + strToInsert + strOriginal[pos:]
 
-def main():
-	(polymer, insertions) = parseFile("input")
+def func(path):
+	(polymer, insertions) = parseFile(path)
 
 	for s in range(0, STEPS):
-		print("STEP " + str(s))
+		logging.debug("STEP " + str(s))
 		for i in range(len(polymer)-2, -1, -1):
 			#print("Pos: " + str(i))
 			pair = polymer[i:i+2]
@@ -40,7 +40,7 @@ def main():
 			#print("  After: " + polymer)
 			#print("-" * 40)
 
-	print("-" * 40)
+	logging.debug("-" * 40)
 	counts = dict()
 	for c in polymer:
 		if c in counts:
@@ -48,7 +48,7 @@ def main():
 		else:
 			counts[c] = 1
 
-	pp.pprint(counts)
+#	pp.pprint(counts)
 
 	maxCount = 0
 	minCount = 1000000000000000000000000
@@ -58,8 +58,17 @@ def main():
 		elif counts[c] < minCount:
 			minCount = counts[c]
 
-	print(str(maxCount - minCount))
+	logging.debug(str(maxCount - minCount))
 
-	return
+	return maxCount - minCount
 
-main()
+class TestDay14Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 1588)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 2010)
+
+if __name__ == '__main__':
+	unittest.main()

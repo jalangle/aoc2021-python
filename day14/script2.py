@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.INFO)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 STEPS = 40
@@ -21,8 +21,8 @@ def parseFile(path):
 				insertions[pair] = insertion
 	return (initial, insertions)
 
-def main():
-	(polymer, insertions) = parseFile("input")
+def func(path):
+	(polymer, insertions) = parseFile(path)
 
 	segmentCounts = dict.fromkeys(insertions, 0)
 
@@ -55,7 +55,16 @@ def main():
 	maximum = max(x for x in letterCounts.values())
 	minimum = min(x for x in letterCounts.values())
 
-	print(str(maximum - minimum))
-	return
+	logging.debug(str(maximum - minimum))
+	return maximum - minimum
 
-main()
+class TestDay14Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 2188189693529)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 2437698971143)
+
+if __name__ == '__main__':
+	unittest.main()
