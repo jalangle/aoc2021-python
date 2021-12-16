@@ -1,10 +1,8 @@
 #!python3
-from itertools import islice
 import logging
+import unittest
 
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
-WINDOWSIZE = 3
+logging.basicConfig(filemode='w', level=logging.INFO)
 
 def slurpFile(path):
 	"""Retrieve file contents"""
@@ -19,8 +17,8 @@ def parse(line):
 	(command, value) = line.split(' ')
 	return(command, int(value))
 
-def main():
-	contents = list(map(parse, slurpFile("input")))
+def func(path):
+	contents = list(map(parse, slurpFile(path)))
 
 	horiz = 0
 	depth = 0
@@ -35,8 +33,18 @@ def main():
 		elif(c[0] == "up"):
 			aim -= c[1]
 
-	print("Horizontal Postition: " + str(horiz))
-	print("Depth: " + str(depth))
-	print("H*D: " + str(horiz * depth))
+	logging.debug("Horizontal Postition: " + str(horiz))
+	logging.debug("Depth: " + str(depth))
+	logging.debug("H*D: " + str(horiz * depth))
+	return horiz * depth
 
-main()
+class TestDay2Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 900)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 1604592846)
+
+if __name__ == '__main__':
+	unittest.main()
