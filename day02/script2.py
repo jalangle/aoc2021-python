@@ -38,7 +38,7 @@ def func(path):
 	logging.debug("H*D: " + str(horiz * depth))
 	return horiz * depth
 
-class TestDay2Part1(unittest.TestCase):
+class TestDay2Part2(unittest.TestCase):
 
 	def test_testdata(self):
 		self.assertEqual(func('test'), 900)
