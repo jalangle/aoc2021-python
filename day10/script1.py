@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 from collections import deque
@@ -46,8 +46,8 @@ def validate(chunk):
 
 	return (True, None)
 
-def main():
-	contents = parseFile("input")
+def func(path):
+	contents = parseFile(path)
 
 	invalidCharCounts = {
 		")" : 0,
@@ -72,7 +72,16 @@ def main():
 		count = invalidCharCounts[x]
 		pointValue = closePoints[x]
 		score += (count * pointValue)
-	print(score)
-	return
+	logging.debug(score)
+	return score
 
-main()
+class TestDay10Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 26397)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 323691)
+
+if __name__ == '__main__':
+	unittest.main()

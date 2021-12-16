@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 from collections import deque
@@ -68,8 +68,8 @@ def scoreCompletion(completion):
 
 	return s;
 
-def main():
-	contents = parseFile("input")
+def func(path):
+	contents = parseFile(path)
 
 	invalidCharCounts = {
 		")" : 0,
@@ -95,9 +95,19 @@ def main():
 			pass
 
 	scores.sort()
-	pp.pprint(scores)
+	#pp.pprint(scores)
 	middleIndex = int((len(scores)) / 2)
-	pp.pprint(middleIndex)
-	pp.pprint(scores[middleIndex])
+	#pp.pprint(middleIndex)
+	#pp.pprint(scores[middleIndex])
+	return scores[middleIndex]
 
-main()
+class TestDay10Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 288957)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 2858785164)
+
+if __name__ == '__main__':
+	unittest.main()
