@@ -58,7 +58,7 @@ def func(path):
 	logging.debug(str(maximum - minimum))
 	return maximum - minimum
 
-class TestDay14Part1(unittest.TestCase):
+class TestDay14Part2(unittest.TestCase):
 
 	def test_testdata(self):
 		self.assertEqual(func('test'), 2188189693529)
