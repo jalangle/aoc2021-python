@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.INFO, format="")
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.WARN)
 pp = pprint.PrettyPrinter(indent=4)
 
 def parseFile(path):
@@ -47,14 +47,12 @@ def charToBin(c):
 	elif c == 'F': #15
 		return '1111'
 
-def inputToBinary(values):
+def inputToBinary(value):
 	binaryValues = list()
-	for l in values:
-		res = ""
-		for c in l:
-			res += charToBin(c)
-		binaryValues.append(res)
-	return binaryValues
+	res = ""
+	for c in value:
+		res += charToBin(c)
+	return res
 
 def parseType4Number(value):
 	bitsRead = 0
@@ -105,7 +103,7 @@ def parsePacket(value, packetId = "0"):
 	versionSum = 0
 	returnValue = None
 
-	print("=" * 40)
+	logging.info("=" * 40)
 	logging.info("Packet Id: " + str(packetId))
 	logging.debug("  V: " + value)
 
@@ -186,20 +184,52 @@ def parsePacket(value, packetId = "0"):
 	return (bitsRead, returnValue)
 
 
-def main():
-	hexValues = parseFile("input")
-	binaryValues = inputToBinary(hexValues)
+def fromString(hexValue):
+	binaryValue = inputToBinary(hexValue)
 
-	case = 0
-	logging.debug(hexValues[case])
-	(bitsRead, value) = parsePacket(binaryValues[case])
+	logging.debug(hexValue)
+	(bitsRead, value) = parsePacket(binaryValue)
 
 	logging.debug("Total Bits Read: " +  str(bitsRead))
 
-	print("=" * 40)	
-	print("Value: " + str(value))
+	logging.debug("=" * 40)	
+	logging.debug("Value: " + str(value))
 
+	return value
 
-	return
+def fromPath(path):
+	hexValues = parseFile(path)
+	assert(len(hexValues) == 1)
+	return fromString(hexValues[0])
 
-main()
+class TestDay16Part1(unittest.TestCase):
+
+	def test_testdata1(self):
+		self.assertEqual(fromString('C200B40A82'), 3)
+
+	def test_testdata2(self):
+		self.assertEqual(fromString('04005AC33890'), 54)
+
+	def test_testdata3(self):
+		self.assertEqual(fromString('880086C3E88112'), 7)
+
+	def test_testdata4(self):
+		self.assertEqual(fromString('CE00C43D881120'), 9)
+
+	# def test_testdata5(self):
+	# 	self.assertEqual(fromString('D8005AC2A8F0'), 15)
+
+	# def test_testdata6(self):
+	# 	self.assertEqual(fromString('F600BC2D8F'), 15)
+
+	# def test_testdata7(self):
+	# 	self.assertEqual(fromString('9C005AC2F8F0'), 15)
+
+	def test_testdata8(self):
+		self.assertEqual(fromString('9C0141080250320F1802104A08'), 1)
+
+	def test_inputdata(self):
+		self.assertEqual(fromPath('input'), 333794664059)
+
+if __name__ == '__main__':
+	unittest.main()
