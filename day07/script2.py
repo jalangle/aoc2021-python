@@ -1,8 +1,8 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
+import unittest
 
+logging.basicConfig(filemode='w', level=logging.INFO)
 
 def parseFile(path):
 	contents = list()
@@ -17,8 +17,8 @@ def costToMoveFrom(f, t):
 	dist = abs(f - t)
 	return int(dist * (dist+1) / 2)
 
-def main():
-	crabPositions = parseFile("input")
+def func(path):
+	crabPositions = parseFile(path)
 	#print(crabPositions)
 
 	maxPos = max(crabPositions)
@@ -30,7 +30,15 @@ def main():
 			posCosts[pos] += costToMoveFrom(crab, pos)
 
 	#print(posCosts)
-	print(str(min(posCosts)))
-	return
+	return min(posCosts)
 
-main()
+class TestDay7Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 168)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 85015836)
+
+if __name__ == '__main__':
+	unittest.main()
