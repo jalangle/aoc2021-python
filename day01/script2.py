@@ -1,15 +1,16 @@
 #!python3
+
+import unittest
+
 from itertools import islice
 import logging
 
 logging.basicConfig(filename='script.log', filemode='w', level=logging.DEBUG)
 
-WINDOWSIZE = 3
-
 def slurpFile(path):
 	"""Retrieve file contents"""
 	contents = list()
-	with open("input", 'r') as f:
+	with open(path, 'r') as f:
 		for l in f:
 			contents.append(l.rstrip())
 	return contents
@@ -26,13 +27,12 @@ def window(seq, n=3):
         result = result[1:] + (elem,)
         yield result
 
-def main():
+def func(path):
 	increase = 0
 	prev = -1
 
-	contents = list(map(int, slurpFile("input")))
-
-	for w in window(contents, n=WINDOWSIZE):
+	contents = list(map(int, slurpFile(path)))
+	for w in window(contents, n=3):
 		logging.debug(repr(w))
 		windowSize = sum(w)
 		if prev == -1:
@@ -41,6 +41,15 @@ def main():
 			increase+=1
 		prev = windowSize
 
-	print(increase)
+	return increase
 
-main()
+class TestDay1Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 5)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 1702)
+
+if __name__ == '__main__':
+	unittest.main()
