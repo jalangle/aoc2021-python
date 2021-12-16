@@ -1,9 +1,10 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
+
 pp = pprint.PrettyPrinter(indent=4)
 
 def normalizeWire(pattern):
@@ -133,8 +134,8 @@ def deduceDisplays(uniquePatterns):
 	return displayNumbers
 
 
-def main():
-	contents = parseFile("input")
+def func(path):
+	contents = parseFile(path)
 
 	total = 0
 	for i in range(0,len(contents)):
@@ -145,7 +146,7 @@ def main():
 #		pp.pprint(uniquePatterns)
 #		print("=" * 20)
 		displayNumbers = deduceDisplays(list(uniquePatterns))
-		pp.pprint(displayNumbers)
+#		pp.pprint(displayNumbers)
 		outputValue = 0;
 
 		for idx in range(0, len(contents[i]["outputs"])):
@@ -153,12 +154,21 @@ def main():
 			for value in range(0,10):
 				if (areEqualWires(contents[i]["outputs"][idx], displayNumbers[value])):
 					number = value * powerOfTen
-					print("Digit " + str(idx) + " = " + str(value) + " => " + str(number))
+					logging.debug("Digit " + str(idx) + " = " + str(value) + " => " + str(number))
 					outputValue += number
-		print("OUTPUT: " + str(outputValue))
+		logging.debug("OUTPUT: " + str(outputValue))
 		total += outputValue
-	print("Total: " + str(total))
+	logging.debug("Total: " + str(total))
 
-	return 
+	return  total
 
-main()
+class TestDay8Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 61229)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 1091609)
+
+if __name__ == '__main__':
+	unittest.main()

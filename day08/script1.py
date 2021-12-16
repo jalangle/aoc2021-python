@@ -1,4 +1,11 @@
 #!python3
+import logging
+import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
+
+pp = pprint.PrettyPrinter(indent=4)
 
 # Normally....
 # 0: abcefg = 6
@@ -12,12 +19,6 @@
 # 8: abcdefg = 7
 # 9: abdcfg = 6
 
-import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
-import pprint
-pp = pprint.PrettyPrinter(indent=4)
-
 def parseFile(path):
 	contents = list()
 	with open(path, 'r') as f:
@@ -30,8 +31,8 @@ def parseFile(path):
 			contents.append(item)
 	return contents
 
-def main():
-	contents = parseFile("input")
+def func(path):
+	contents = parseFile(path)
 #	pp.pprint(contents)
 	digitCounts = list()
 	for i in range(0,10):
@@ -48,7 +49,15 @@ def main():
 			elif(len(digit) == 7):
 				digitCounts[8] += 1
 
-	print( sum(digitCounts))
-	return 
+	return sum(digitCounts)
 
-main()
+class TestDay8Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 26)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 456)
+
+if __name__ == '__main__':
+	unittest.main()
