@@ -1,10 +1,8 @@
 #!python3
-from itertools import islice
 import logging
+import unittest
 
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
-WINDOWSIZE = 3
+logging.basicConfig(filemode='w', level=logging.INFO)
 
 def slurpFile(path):
 	"""Retrieve file contents"""
@@ -25,8 +23,8 @@ def listToInt(l):
 	""" """
 	return int("".join(map(str, l)), 2)
 	
-def main():
-	contents = list(map(parse, slurpFile("input")))
+def func(path):
+	contents = list(map(parse, slurpFile(path)))
 	for l in contents:
 		logging.debug(str(l))
 	countOfBits = len(contents[0])
@@ -54,9 +52,19 @@ def main():
 			gamma.append(0)
 			epsilon.append(1)
 	gAsInt = listToInt(gamma)
-	logging.info("G: " + str(gAsInt))
+	logging.debug("G: " + str(gAsInt))
 	eAsInt = listToInt(epsilon)
-	logging.info("E: " + str(eAsInt))
-	logging.info("RATE: " + str(gAsInt * eAsInt))
+	logging.debug("E: " + str(eAsInt))
+	logging.debug("RATE: " + str(gAsInt * eAsInt))
+	return gAsInt * eAsInt
 	
-main()
+class TestDay3Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 198)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 2724524)
+
+if __name__ == '__main__':
+	unittest.main()

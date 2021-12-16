@@ -1,11 +1,10 @@
 #!python3
-from itertools import islice
 import logging
+import unittest
+
 from copy import deepcopy
 
 logging.basicConfig(filemode='w', level=logging.INFO)
-
-WINDOWSIZE = 3
 
 def slurpFile(path):
 	"""Retrieve file contents"""
@@ -52,7 +51,7 @@ def get_oxygen_rating(countOfBits, o2rating):
 		mostCommon = mostCommonBit(i, allBits)
 		o2rating = [x for x in o2rating if x[i] == mostCommon]
 
-	print(o2rating[0])
+	logging.debug(o2rating[0])
 	return listToInt(o2rating[0])
 
 def leastCommonBit(i, allBits):
@@ -81,15 +80,25 @@ def get_co2_rating(countOfBits, co2rating):
 	
 	logging.debug("After: " + str(co2rating))
 
-	print(co2rating[0])
+	logging.debug(co2rating[0])
 	return listToInt(co2rating[0])
 
-def main():
-	contents = list(map(parse, slurpFile("input")))
+def func(path):
+	contents = list(map(parse, slurpFile(path)))
 	countOfBits = len(contents[0])
 
 	o2 = get_oxygen_rating(countOfBits, deepcopy(contents))
 	co2 = get_co2_rating(countOfBits, deepcopy(contents))	
-	print("Life Support Rating: " + str(o2 * co2))
+	logging.debug("Life Support Rating: " + str(o2 * co2))
+	return o2 * co2
 
-main()
+class TestDay3Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 230)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 2775870)
+
+if __name__ == '__main__':
+	unittest.main()
