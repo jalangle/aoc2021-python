@@ -1,14 +1,12 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.INFO)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 import networkx as nx
-import matplotlib.pyplot as plt
-
 from copy import deepcopy
 
 def parseFile(path):
@@ -65,8 +63,8 @@ def incrementGrid(grid):
 	for r in range(0, len(grid)):
 		incrementRow(grid, r)
 
-def main():
-	initialGrid = parseFile("input")
+def func(path):
+	initialGrid = parseFile(path)
 
 	grid = list()
 	p1 = deepcopy(initialGrid)
@@ -131,7 +129,16 @@ def main():
 #		print(key + " => " + str(costs[key]))
 		cost += costs[key]
 
-	print(cost)
-	return
+	logging.debug(cost)
+	return cost
 
-main()
+class TestDay15Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 315)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 2885)
+
+if __name__ == '__main__':
+	unittest.main()

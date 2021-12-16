@@ -1,13 +1,12 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.INFO)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 import networkx as nx
-import matplotlib.pyplot as plt
 
 def parseFile(path):
 	contents = list()
@@ -45,8 +44,8 @@ def AddEdge(grid, graph, costs, r_from, c_from, r_to, c_to):
 		costs[fromName + "-" + toName] = cost
 		graph.add_edge(fromName, toName, weight = cost)	
 
-def main():
-	grid = parseFile("input")
+def func(path):
+	grid = parseFile(path)
 #	pp.pprint(grid)
 #	print("-" * 40)
 	g = nx.DiGraph()
@@ -63,19 +62,26 @@ def main():
 
 #	print("-" * 40)
 
-	#nx.draw(g,with_labels=True)
-	#plt.show()
 	path = nx.shortest_path(g, GetName(0, 0), GetName(len(grid)-1,len(grid[0]) -1), weight='weight')
 
 	cost = 0
 	for i in range(len(path) - 1):
 		segment = path[i:i+2]
 		key = segment[0] + "-" + segment[1]
-		print(key)
+#		print(key)
 #		print(key + " => " + str(costs[key]))
 		cost += costs[key]
 
-	print(cost)
-	return
+	logging.debug(cost)
+	return cost
 
-main()
+class TestDay15Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 40)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 589)
+
+if __name__ == '__main__':
+	unittest.main()
