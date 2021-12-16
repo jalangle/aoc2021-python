@@ -1,9 +1,8 @@
 #!python3
-
-from collections import ChainMap
 import logging
+import unittest
 
-logging.basicConfig(filemode='w', level=logging.DEBUG)
+logging.basicConfig(filemode='w', level=logging.INFO)
 
 def strToPoint(str):
 	(x,y) = str.split(",")
@@ -32,7 +31,7 @@ def isHorizontal(a, b):
 	return a["y"] == b["y"]
 
 def printGrid(grid):
-	print(grid)
+	logging.debug(grid)
 
 def incrementGrid(grid, x, y):
 	index = x * MAX_HEIGHT + y
@@ -41,8 +40,8 @@ def incrementGrid(grid, x, y):
 	else:
 		grid[index] = 1
 
-def main():
-	contents = parseFile("input")
+def func(path):
+	contents = parseFile(path)
 
 	grid = dict()
 
@@ -51,19 +50,19 @@ def main():
 		end = line["end"]
 
 		if(isVertical(begin, end)):
-			print("V: " + str(line))
+			logging.debug("V: " + str(line))
 			low = min(begin["y"], end["y"])
 			high = max(begin["y"], end["y"])
 			for j in range(low, high+1):
 				incrementGrid(grid, begin["x"], j)
 		elif(isHorizontal(begin, end)):
-			print("H: " + str(line))
+			logging.debug("H: " + str(line))
 			low = min(begin["x"], end["x"])
 			high = max(begin["x"], end["x"])
 			for j in range(low, high+1):
 				incrementGrid(grid, j, begin["y"])
 		else:
-			print("D: " + str(line))
+			logging.debug("D: " + str(line))
 			pass
 
 	count = 0;
@@ -71,18 +70,16 @@ def main():
 		if grid[k] > 1:
 			count += 1
 
-	print(count)
+	return count
+
+class TestDay5Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 5)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 6225)
 
 
-
-
-
-
-
-
-
-
-
-
-
-main()
+if __name__ == '__main__':
+	unittest.main()
