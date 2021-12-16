@@ -1,6 +1,6 @@
 #!python3
-from itertools import islice
 import logging
+import unittest
 
 logging.basicConfig(filemode='w', level=logging.DEBUG)
 
@@ -34,7 +34,6 @@ def isBingo(card):
 		if(all(valuesAtIndex)):
 			return True
 
-
 	for i in range(0, 5):
 		valuesAtIndex = [row[i][1] for row in card]
 		if(all(valuesAtIndex)):
@@ -59,13 +58,8 @@ def score(value, card):
 
 	return value * total
 
-def printCard(card):
-	print("-----------")
-	for r in card:
-		print(r)
-
-def main():
-	(drawOrder, cards) = parseFile("input")
+def func(path):
+	(drawOrder, cards) = parseFile(path)
 
 	winOrder = list()
 
@@ -76,12 +70,17 @@ def main():
 				if(bingo):
 					winOrder.append((value, card))
 
-	c = winOrder[0]
-	s = score(c[0], c[1])
-	print(s)
 	c = winOrder[-1]
 	s = score(c[0], c[1])
-	print(s)
+	return s
 
+class TestDay4Part2(unittest.TestCase):
 
-main()
+	def test_testdata(self):
+		self.assertEqual(func('test'), 1924)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 18063)
+
+if __name__ == '__main__':
+	unittest.main()

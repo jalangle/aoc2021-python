@@ -1,6 +1,6 @@
 #!python3
-from itertools import islice
 import logging
+import unittest
 
 logging.basicConfig(filemode='w', level=logging.DEBUG)
 
@@ -59,21 +59,23 @@ def score(value, card):
 
 	return value * total
 
-def printCard(card):
-	print("-----------")
-	for r in card:
-		print(r)
-
-def main():
-	(drawOrder, cards) = parseFile("input")
+def func(path):
+	(drawOrder, cards) = parseFile(path)
 
 	for value in drawOrder:
 		for card in cards: 
 			bingo = markCard(value, card)
 			if(bingo):
 				s = score(value, card)
-				printCard(card)
-				print(s)
-				return
+				return s
 
-main()
+class TestDay4Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 4512)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 12796)
+
+if __name__ == '__main__':
+	unittest.main()
