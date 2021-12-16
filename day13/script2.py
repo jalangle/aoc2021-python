@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 from enum import Enum
@@ -95,12 +95,12 @@ def printGrid(points):
 		row = ""
 		for col in grid:
 			row += col[i]
-		print(row)
+#		print(row)
 
 	return count
 
-def main():
-	(points, instructions) = parseFile("input")
+def func(path):
+	(points, instructions) = parseFile(path)
 
 	for instruction in instructions:
 		if(instruction.direction == FoldDirection.Up):
@@ -123,6 +123,15 @@ def main():
 					points[i].col = newCol
 
 	count = printGrid(points)
-	return
+	return count
 
-main()
+class TestDay13Part2(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 16)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 100)
+
+if __name__ == '__main__':
+	unittest.main()

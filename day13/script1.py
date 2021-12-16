@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 from enum import Enum
@@ -99,8 +99,8 @@ def printGrid(points):
 
 	return count
 
-def main():
-	(points, instructions) = parseFile("test")
+def func(path):
+	(points, instructions) = parseFile(path)
 	printGrid(points)
 
 	for instruction in instructions:
@@ -125,7 +125,16 @@ def main():
 		break
 
 	count = printGrid(points)
-	print(count)
-	return
+	logging.debug(count)
+	return count
 
-main()
+class TestDay13Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 17)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 729)
+
+if __name__ == '__main__':
+	unittest.main()
