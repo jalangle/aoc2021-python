@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.INFO)
 pp = pprint.PrettyPrinter(indent=4)
 
 def parseFile(path):
@@ -76,8 +76,8 @@ def flashOctopodes(octopodes):
 				flashOctopode(octopodes, x, y, hasFlashed)
 	return len(hasFlashed)
 
-def main():
-	octopodes = parseFile("input")
+def func(path):
+	octopodes = parseFile(path)
 	#printSep("Initial")
 	#pp.pprint(octopodes)
 
@@ -89,14 +89,23 @@ def main():
 		increaseEnergy(octopodes)
 		flashes = flashOctopodes(octopodes)
 		if(flashes == totalOctopodes):
-			print("All flashed: " + str(step + 1))
-			break
+			logging.debug("All flashed: " + str(step + 1))
+			return step + 1
 		resetFlashed(octopodes)
 		#printSep("Day " + str(step + 1))
 		#pp.pprint(octopodes)
 
 	#print("Flashes: " + str(flashes))
 
-	return
+	return None
 
-main()
+class TestDay11Part2(unittest.TestCase):
+
+	def test_testdata2(self):
+		self.assertEqual(func('test2'), 195)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 510)
+
+if __name__ == '__main__':
+	unittest.main()
