@@ -164,8 +164,11 @@ def func(path):
 
 class TestDay8Part2(unittest.TestCase):
 
-	def test_testdata(self):
-		self.assertEqual(func('test'), 61229)
+	def test_testdata1(self):
+		self.assertEqual(func('test1'), 5353)
+
+	def test_testdata2(self):
+		self.assertEqual(func('test2'), 61229)
 
 	def test_inputdata(self):
 		self.assertEqual(func('input'), 1091609)
