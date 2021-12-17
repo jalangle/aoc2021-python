@@ -216,14 +216,14 @@ class TestDay16Part1(unittest.TestCase):
 	def test_testdata4(self):
 		self.assertEqual(fromString('CE00C43D881120'), 9)
 
-	# def test_testdata5(self):
-	# 	self.assertEqual(fromString('D8005AC2A8F0'), 15)
+	def test_testdata5(self):
+		self.assertEqual(fromString('D8005AC2A8F0'), 1)
 
-	# def test_testdata6(self):
-	# 	self.assertEqual(fromString('F600BC2D8F'), 15)
+	def test_testdata6(self):
+		self.assertEqual(fromString('F600BC2D8F'), 0)
 
-	# def test_testdata7(self):
-	# 	self.assertEqual(fromString('9C005AC2F8F0'), 15)
+	def test_testdata7(self):
+		self.assertEqual(fromString('9C005AC2F8F0'), 0)
 
 	def test_testdata8(self):
 		self.assertEqual(fromString('9C0141080250320F1802104A08'), 1)
