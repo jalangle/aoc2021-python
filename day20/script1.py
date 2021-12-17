@@ -1,9 +1,9 @@
 #!python3
-
 import logging
-logging.basicConfig(filemode='w', level=logging.DEBUG)
-
 import pprint
+import unittest
+
+logging.basicConfig(filemode='w', level=logging.WARN)
 pp = pprint.PrettyPrinter(indent=4)
 
 def parseFile(path):
@@ -13,9 +13,18 @@ def parseFile(path):
 			contents.append(l.rstrip())
 	return contents
 
-def main():
-	contents = parseFile("test")
-	print(contents)
-	return
+def func(path):
+	contents = parseFile(path)
+	logging.debug(contents)
+	return 0
 
-main()
+class TestDay17Part1(unittest.TestCase):
+
+	def test_testdata(self):
+		self.assertEqual(func('test'), 0)
+
+	def test_inputdata(self):
+		self.assertEqual(func('input'), 0)
+
+if __name__ == '__main__':
+	unittest.main()
